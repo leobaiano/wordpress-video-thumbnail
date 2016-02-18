@@ -116,7 +116,7 @@
     		// if our current user can't edit this post, bail
     		if( ! current_user_can( 'edit_post', $post_id ) ) return;
 
-    		if( isset( $_POST[self::$plugin_slug . '_video'] ) ) {
+    		if( isset( $_POST[self::$plugin_slug . '_video'] ) && !empty( $_POST[self::$plugin_slug . '_video'] ) ) {
        			update_post_meta( $post_id, self::$plugin_slug . '_video', wp_kses( $_POST[self::$plugin_slug . '_video'], $_POST[self::$plugin_slug . '_video'] ) );
 
        			if ( !has_post_thumbnail( $post_id ) ) {
