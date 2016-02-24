@@ -126,7 +126,7 @@
 
 	       			if ( 'www.youtube.com' == $domain || 'youtube.com' == $domain ) {
 						$id_youtube = $url_vars['v'];
-						$thumbnail = 'http://img.youtube.com/vi/' . $id_youtube . '/0.jpg';
+						$thumbnail = 'http://img.youtube.com/vi/' . $id_youtube . '/maxresdefault.jpg';
 					} elseif ( 'vimeo.com' == $domain || 'www.vimeo.com' == $domain ) {
 						$url_json_vimeo = 'https://vimeo.com/api/oembed.json?url=' . esc_url( $_POST[self::$plugin_slug . '_video'] );
 						$data_vimeo = json_decode( $this->get( $url_json_vimeo ), true );
