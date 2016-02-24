@@ -126,7 +126,7 @@
 
 	       			if ( 'www.youtube.com' == $domain || 'youtube.com' == $domain ) {
 						$id_youtube = $url_vars['v'];
-						$thumbnail = 'http://img.youtube.com/vi/' . $id_youtube . '/maxresdefault.jpg';
+						$thumbnail = 'http://img.youtube.com/vi/' . $id_youtube . '/0.jpg';
 					} elseif ( 'vimeo.com' == $domain || 'www.vimeo.com' == $domain ) {
 						$url_json_vimeo = 'https://vimeo.com/api/oembed.json?url=' . esc_url( $_POST[self::$plugin_slug . '_video'] );
 						$data_vimeo = json_decode( $this->get( $url_json_vimeo ), true );
@@ -137,9 +137,11 @@
 					$dia = date( "d" );
 					$mes = date( "m" );
 					$ano = date( "Y" );
-					$caminho_int = ABSPATH . "wp-content/uploads/" . $ano . "/" . $mes . "/" . md5( 'dmYHi' ) . '.jpg';
-					if(!is_dir(ABSPATH . "wp-content/uploads/" . $ano . "/" . $mes)) {
-						mkdir(ABSPATH . "wp-content/uploads/" . $ano . "/" . $mes, 0777, true );
+					$upload_dirs = wp_upload_dir();
+					$upload_dir = $upload_dirs['path'];
+					$caminho_int = $upload_dir . "/" . md5( 'dmYHi' ) . '.jpg';
+					if(!is_dir( $upload_dir ) ) {
+						mkdir( $upload_dir, 0777, true );
 					}
 					copy( $thumbnail, $caminho_int );
 					$wp_filetype = wp_check_filetype( basename( $caminho_int ), null );
@@ -158,6 +160,8 @@
 					wp_update_attachment_metadata( $attach_id, $attach_data );
 					set_post_thumbnail( $post_id, $attach_id );
 				}
+    		} else {
+    			update_post_meta( $post_id, self::$plugin_slug . '_video', wp_kses( $_POST[self::$plugin_slug . '_video'], $_POST[self::$plugin_slug . '_video'] ) );
     		}
 		}
 	}
